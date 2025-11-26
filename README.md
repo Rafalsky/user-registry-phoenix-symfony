@@ -7,7 +7,7 @@ A demo application consisting of two cooperating systems:
 ## Tech Stack
 
 -   **Backend**: Elixir, Phoenix Framework, PostgreSQL.
--   **Frontend**: PHP 8.2+, Symfony 6+, Twig, Bootstrap/Tailwind (TBD).
+-   **Frontend**: PHP 8.2+, Symfony 6+, Twig, Bootstrap.
 -   **Infrastructure**: Docker, Docker Compose.
 
 ## Setup & Running
