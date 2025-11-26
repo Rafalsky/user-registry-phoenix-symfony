@@ -1,0 +1,29 @@
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+
+# Temp
+tmp/
+
+# Environment Variables (if any in root)
+.env
+.env.local
+
+# Windows Zone Identifier files
+*Zone.Identifier
+
+# Local Context
+PROMPT.md

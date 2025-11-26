@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: phoenix_app
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  phoenix:
+    build: ./phoenix-api
+    environment:
+      DATABASE_URL: ecto://postgres:postgres@db/phoenix_app
+      SECRET_KEY_BASE: "super_secret_key_base_for_dev_mode_only_change_in_prod"
+      PHX_HOST: "localhost"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: [ "./entrypoint.sh" ]
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./phoenix-api:/app
+
+  symfony:
+    build: ./symfony-app
+    environment:
+      PHOENIX_API_URL: "http://phoenix:4000/api"
+    depends_on:
+      phoenix:
+        condition: service_started
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./symfony-app:/app
+
+volumes:
+  db_data:
