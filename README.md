@@ -4,6 +4,8 @@ A demo application consisting of two cooperating systems:
 1.  **Phoenix API**: Backend with PostgreSQL, handling user data and imports.
 2.  **Symfony App**: Frontend Admin Panel, communicating with the API via HTTP.
 
+![Screenshot](img/screenshot.png)
+
 ## Tech Stack
 
 -   **Backend**: Elixir, Phoenix Framework, PostgreSQL.
