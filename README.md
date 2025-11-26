@@ -48,5 +48,4 @@ make test-symfony
 
 ## Documentation
 
--   [Task List](task.md)
--   [Implementation Plan](implementation_plan.md)
+-   [Prompt](PROMPT.md)
