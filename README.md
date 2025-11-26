@@ -21,7 +21,8 @@ A demo application consisting of two cooperating systems:
 1.  Clone the repository.
 2.  Build and run the stack:
     ```bash
-    make up
+    docker compose build
+    docker compose up
     ```
 3.  Access the applications:
     -   **Phoenix API**: `http://localhost:4000`

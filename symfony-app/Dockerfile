@@ -19,7 +19,7 @@ WORKDIR /app
 COPY composer.json composer.lock ./
 
 # Install dependencies
-RUN composer install --no-scripts --no-autoloader
+RUN composer install --no-scripts
 
 # Copy source
 COPY . .

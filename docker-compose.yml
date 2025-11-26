@@ -44,6 +44,7 @@ services:
       - "8000:8000"
     volumes:
       - ./symfony-app:/app
+      - /app/vendor
 
 volumes:
   db_data:
