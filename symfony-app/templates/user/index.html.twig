@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User List{% endblock %}
+
+{% block body %}
+    <h1>User List</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+                <div class="col-md-3">
+                    {{ form_row(form.first_name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.last_name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_row(form.gender, {'attr': {'class': 'form-select'}}) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_row(form.birthdate_from, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-md-2">
+                    {{ form_row(form.birthdate_to, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-12">
+                    {{ form_widget(form.filter, {'attr': {'class': 'btn btn-primary'}}) }}
+                    <a href="{{ path('user_index') }}" class="btn btn-secondary">Reset</a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <a href="{{ path('user_new') }}" class="btn btn-success">Create New User</a>
+        
+        <form method="post" action="{{ path('user_import') }}" style="display: inline-block" onsubmit="return confirm('This will delete all existing users and import 100 new random users from gov.pl. Continue?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('import') }}">
+            <button class="btn btn-primary">Import Users</button>
+        </form>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    <a href="{{ path('user_index', current_filters|merge({'sort': 'id', 'direction': current_filters.direction == 'asc' ? 'desc' : 'asc'})) }}">ID</a>
+                </th>
+                <th>
+                    <a href="{{ path('user_index', current_filters|merge({'sort': 'first_name', 'direction': current_filters.direction == 'asc' ? 'desc' : 'asc'})) }}">First Name</a>
+                </th>
+                <th>
+                    <a href="{{ path('user_index', current_filters|merge({'sort': 'last_name', 'direction': current_filters.direction == 'asc' ? 'desc' : 'asc'})) }}">Last Name</a>
+                </th>
+                <th>
+                    <a href="{{ path('user_index', current_filters|merge({'sort': 'gender', 'direction': current_filters.direction == 'asc' ? 'desc' : 'asc'})) }}">Gender</a>
+                </th>
+                <th>
+                    <a href="{{ path('user_index', current_filters|merge({'sort': 'birthdate', 'direction': current_filters.direction == 'asc' ? 'desc' : 'asc'})) }}">Birthdate</a>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.gender }}</td>
+                <td>{{ user.birthdate }}</td>
+                <td>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <form method="post" action="{{ path('user_delete', {'id': user.id}) }}" style="display: inline-block" onsubmit="return confirm('Are you sure?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No users found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {# Simple Pagination #}
+    <nav>
+        <ul class="pagination">
+            {% if meta.page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path('user_index', current_filters|merge({'page': meta.page - 1})) }}">Previous</a>
+                </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ meta.page }}</span>
+            </li>
+            {% if meta.page * meta.page_size < meta.total_count %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path('user_index', current_filters|merge({'page': meta.page + 1})) }}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

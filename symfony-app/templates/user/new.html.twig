@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user is defined ? 'Edit User' : 'New User' }}{% endblock %}
+
+{% block body %}
+    <h1>{{ user is defined ? 'Edit User' : 'New User' }}</h1>
+
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_row(form.first_name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.last_name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.birthdate, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(form.gender, {'attr': {'class': 'form-select'}}) }}
+                </div>
+                <div class="mt-4">
+                    <button class="btn btn-primary">{{ user is defined ? 'Update' : 'Create' }}</button>
+                    <a href="{{ path('user_index') }}" class="btn btn-secondary">Back to list</a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
